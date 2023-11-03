@@ -1,14 +1,16 @@
 #include "biblioteca.h""
 #include <stdio.h>
+#include "string.h"
 
 //Função de cadastro
 int cadastrarTarefa(ListaDeTarefas *lt){
 
     //Variável para o controle do retorno das funções
     int controle;
+    int verif_categoria;
 
     //Lendo a prioridade da tarefa
-    printf("Digite a prioridade da tarefa: ");
+    printf("Digite a prioridade da tarefa: (digite um valor de 0 a 10)\n");
     scanf("%d",&lt->tarefas[lt->qtd].prioridade);
 
     //Lendo a descrição da tarefa
@@ -16,8 +18,51 @@ int cadastrarTarefa(ListaDeTarefas *lt){
     scanf(" %[^\n]",lt->tarefas[lt->qtd].descricao);
 
     //Lendo a categoria da tarefa
-    printf("Digite a categoria da tarefa: ");
-    scanf(" %[^\n]",lt->tarefas[lt->qtd].categoria);
+    printf("Selecione a categoria da tarefa, Digite um dos numeros:\n1-Pessoal  |  2-Casa  |  3-Pets  |  4-Faculdade/Escola  |  5-Trabalho  |  6-Financeira  |\n7-Alimentacao |  8-Intelectual/Espiritual  |  9-Saude/Exercicio  |  10-Outros  |\n");
+    scanf("%d", &verif_categoria);
+    //limpar buffer
+    getchar();
+
+    switch (verif_categoria) {
+        case '1':
+            strcpy(lt->tarefas[lt->qtd].categoria, "Pessoal");
+            break;
+        case '2':
+            strcpy(lt->tarefas[lt->qtd].categoria, "Casa");
+            break;
+        case '3':
+            strcpy(lt->tarefas[lt->qtd].categoria, "Pets");
+            break;
+        case '4':
+            strcpy(lt->tarefas[lt->qtd].categoria, "Faculdade/Escola");
+            break;
+        case '5':
+            strcpy(lt->tarefas[lt->qtd].categoria, "Trabalho");
+            break;
+        case '6':
+            strcpy(lt->tarefas[lt->qtd].categoria, "Financeira");
+            break;
+        case '7':
+            strcpy(lt->tarefas[lt->qtd].categoria, "Alimentacao");
+            break;
+        case '8':
+            strcpy(lt->tarefas[lt->qtd].categoria, "Intelectual/Espiritual");
+            break;
+        case '9':
+            strcpy(lt->tarefas[lt->qtd].categoria, "Saude/Exercicio");
+            break;
+        case '10':
+            strcpy(lt->tarefas[lt->qtd].categoria, "Outros");
+            break;
+
+    };
+
+    //scanf(" %[^\n]", lt->tarefas[lt->qtd].categoria);
+
+
+    //Lendo o status da tarefa
+    printf("Essa tarefa está completa?  Digite:\n'1' se estiver completa\n'2' se estiver em andamento\n'3' se ainda não tiver iniciado ainda\n'" );
+    scanf(" %[^\n]",lt->tarefas[lt->qtd].estado);
 
     //Aumentando a variável do número de structs
     lt->qtd ++;
