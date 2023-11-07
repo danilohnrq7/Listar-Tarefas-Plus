@@ -2,11 +2,45 @@
 #include <stdio.h>
 #include "string.h"
 
+i   altera_categoria(int*verifica, ListaDeTarefas *lt) {
+    //switch case para preenceher a categoria na struct de acordo com a entrada do usuario
+    switch (*verifica) {
+        case 1:
+            strcpy(lt->tarefas[lt->qtd].categoria, "Pessoal");
+            break;
+        case 2:
+            strcpy(lt->tarefas[lt->qtd].categoria, "Casa");
+            break;
+        case 3:
+            strcpy(lt->tarefas[lt->qtd].categoria, "Pets");
+            break;
+        case 4:
+            strcpy(lt->tarefas[lt->qtd].categoria, "Faculdade/Escola");
+            break;
+        case 5:
+            strcpy(lt->tarefas[lt->qtd].categoria, "Trabalho");
+            break;
+        case 6:
+            strcpy(lt->tarefas[lt->qtd].categoria, "Financeira");
+            break;
+        case 7:
+            strcpy(lt->tarefas[lt->qtd].categoria, "Alimentacao");
+            break;
+        case 8:
+            strcpy(lt->tarefas[lt->qtd].categoria, "Intelectual/Espiritual");
+            break;
+        case 9:
+            strcpy(lt->tarefas[lt->qtd].categoria, "Saude/Exercicio");
+            break;
+        case 10:
+            strcpy(lt->tarefas[lt->qtd].categoria, "Outros");
+            break;
+    };
+}
+
 //Função de cadastro
 int cadastrarTarefa(ListaDeTarefas *lt){
-
     //Variável para o controle do retorno das funções
-    int controle;
     int verif_categoria;
 
     //Lendo a prioridade da tarefa
@@ -20,45 +54,8 @@ int cadastrarTarefa(ListaDeTarefas *lt){
     //Lendo a categoria da tarefa
     printf("Selecione a categoria da tarefa, Digite um dos numeros:\n1-Pessoal  |  2-Casa  |  3-Pets  |  4-Faculdade/Escola  |  5-Trabalho  |  6-Financeira  |\n7-Alimentacao |  8-Intelectual/Espiritual  |  9-Saude/Exercicio  |  10-Outros  |\n");
     scanf("%d", &verif_categoria);
-    //limpar buffer
     getchar();
-
-    switch (verif_categoria) {
-        case '1':
-            strcpy(lt->tarefas[lt->qtd].categoria, "Pessoal");
-            break;
-        case '2':
-            strcpy(lt->tarefas[lt->qtd].categoria, "Casa");
-            break;
-        case '3':
-            strcpy(lt->tarefas[lt->qtd].categoria, "Pets");
-            break;
-        case '4':
-            strcpy(lt->tarefas[lt->qtd].categoria, "Faculdade/Escola");
-            break;
-        case '5':
-            strcpy(lt->tarefas[lt->qtd].categoria, "Trabalho");
-            break;
-        case '6':
-            strcpy(lt->tarefas[lt->qtd].categoria, "Financeira");
-            break;
-        case '7':
-            strcpy(lt->tarefas[lt->qtd].categoria, "Alimentacao");
-            break;
-        case '8':
-            strcpy(lt->tarefas[lt->qtd].categoria, "Intelectual/Espiritual");
-            break;
-        case '9':
-            strcpy(lt->tarefas[lt->qtd].categoria, "Saude/Exercicio");
-            break;
-        case '10':
-            strcpy(lt->tarefas[lt->qtd].categoria, "Outros");
-            break;
-
-    };
-
-    //scanf(" %[^\n]", lt->tarefas[lt->qtd].categoria);
-
+    altera_categoria(&verif_categoria, lt);
 
     //Lendo o status da tarefa
     printf("Essa tarefa está completa?  Digite:\n'1' se estiver completa\n'2' se estiver em andamento\n'3' se ainda não tiver iniciado ainda\n'" );
@@ -68,13 +65,105 @@ int cadastrarTarefa(ListaDeTarefas *lt){
     lt->qtd ++;
 
     //Guardando a nova struct em um arquivo binário e verificando retorno da função
+    int controle = salvarTarefas(lt);
+    if (controle != 0){
+        printf("\nErro ao tentar executar a funcao :(\n");
+    }
+
+    return 0;
+};
+
+    //scanf(" %[^\n]", lt->tarefas[lt->qtd].categoria);
+
+
+
+
+//
+int alterarTarefa(ListaDeTarefas *lt){
+    //Variáveis para: o controle do retorno da função - verificar se a tarefa foi encontrada - ler o número da tarefa a ser deletada
+    int controle, verifica = 1, num_tarefa, escolha;
+
+    //Verificando se existe alguma tarefa cadastrada
+    if (lt->qtd == 0){
+        printf("\nNao existem tarefas cadastradas.\n");
+    }
+    else {
+        //Listando as tarefas e verificando o retorno da função
+        controle = listarTarefas(*lt);
+        if (controle != 0){
+            printf("\nErro ao tentar executar a funcao :(\n");
+        }
+
+        //Opção 0 para cancelar o delete
+        printf("\n0 - Cancelar.\n");
+
+        //Lendo o número da tarefa ou o 0
+        printf("\nDigite o numero da tarefa que deseja alterar ou 0 para cancelar: ");
+        scanf("%d",&num_tarefa);
+
+        //Cancelando o delete
+        if (num_tarefa == 0){
+            verifica = 0;
+            printf("\n\nCancelado!\n");
+        }
+
+            //aletarando a tarefa
+        else {
+
+            //Percorrendo a ListaDeTarefas e comparando o número digitado com o número da tarefa
+            for (int i = 0; i < lt->qtd; i++){ //Laço 1
+                if (i+1 == num_tarefa){
+
+                    //Atualizando o resto da ListaDeTarefas pelo índice.
+                    //Adicionando o conteúdo da próxima struct Tarefa (próximo índice da struct ListaDeTarefas) à atual struct Tarefa
+                    for (int j = i; j < lt->qtd - 1; j++){ //Laço 2
+                        lt->tarefas[j] = lt->tarefas[j+1];
+                    }
+                    printf("Qual campo da tarefa deseja alterar? :\n1-Prioridade  |  2-Descrição  |  3-Categoria");
+                    scanf("%d",&escolha);
+
+                    if(escolha == 1){
+                        printf("Digite a prioridade da tarefa: (digite um valor de 0 a 10)\n");
+                        scanf("%d",&lt->tarefas[lt->qtd].prioridade);
+                    } else if(escolha == 2){
+                        printf("Digite a descricao da tarefa: ");
+                        scanf(" %[^\n]",lt->tarefas[lt->qtd].descricao);
+                    } else if(escolha == 3){
+                        int verif_categoria;
+                        printf("Selecione a categoria da tarefa, Digite um dos numeros:\n1-Pessoal  |  2-Casa  |  3-Pets  |  4-Faculdade/Escola  |  5-Trabalho  |  6-Financeira  |\n7-Alimentacao |  8-Intelectual/Espiritual  |  9-Saude/Exercicio  |  10-Outros  |\n");
+                        scanf("%d", &verif_categoria);
+                        getchar();
+                        altera_categoria(&verif_categoria, lt);
+                    }else{
+                        printf("ERRO AO TENTAR ALTERAR A TAREFA, TENTE NOVAMENTE");
+                        break;
+                    }
+
+                    //Reduzindo o número de tarefas
+                    /*lt->qtd -= 1;
+                    printf("\n\nTarefa Apagada!\n");
+                    //Atualizando a variável que verifica se a tarefa foi encontrada
+                    verifica = 0;
+                    //Saindo do laço 1
+                    break;*/
+                }
+
+            }
+        }
+        //Caso a tarefa não seja encontrada
+        if (verifica == 1){
+            printf("\n\nTarefa não encontrada\n");
+        }
+    }
+
+    //Guardando a nova struct em um arquivo binário e verificando retorno da função
     controle = salvarTarefas(lt);
     if (controle != 0){
         printf("\nErro ao tentar executar a funcao :(\n");
     }
 
     return 0;
-}
+};
 
 //Função de delete
 int deletarTarefa(ListaDeTarefas *lt){
@@ -144,6 +233,18 @@ int deletarTarefa(ListaDeTarefas *lt){
 
     return 0;
 }
+
+//funcao para anular qualquer conteudo que esteja inicialmente na struct lista de tarefas
+void zerarListaDeTarefas(ListaDeTarefas *lt) {
+    lt->qtd = 0;
+    //for para iterar sobre todos os itens
+    for (int i =0; i < 100; i++){
+        //tornando os valores nulos
+        lt->tarefas[i].prioridade = 0;
+        lt->tarefas[i].descricao[0] ='\0';
+        lt->tarefas[i].categoria[0] ='\0';
+        lt->tarefas[i].estado[0] ='\0';
+    }}
 
 //Função de lista
 int listarTarefas(ListaDeTarefas lt){
@@ -230,4 +331,4 @@ int carregarTarefas(ListaDeTarefas *lt){
     //Fechando o arquivo
     fclose(f);
     return 0;
-}
+};

@@ -12,6 +12,8 @@ typedef struct {
     int qtd;
 } ListaDeTarefas; // Nomeando este tipo de struct como: ListaDeTarefas
 
+int altera_categoria(int*verifica, ListaDeTarefas *lt);
+
 //Função para cadastrar tarefas, que recebe um ponteiro de ListaDeTarefas como parâmetro e retorna um inteiro
 int cadastrarTarefa(ListaDeTarefas *lt);
 
@@ -20,6 +22,8 @@ int deletarTarefa(ListaDeTarefas *lt);
 
 //Função para alterar tarefas, que recebe um ponteiro de ListaDeTarefas como parâmetro e retorna um inteiro
 int alterarTarefa(ListaDeTarefas *lt);
+
+void zerarListaDeTarefas(ListaDeTarefas *lt);
 
 //Função para deletar tarefas, que recebe uma struct ListaDeTarefas como parâmetro e retorna um inteiro
 int listarTarefas(ListaDeTarefas lt);

@@ -10,6 +10,8 @@
 int main(void) {
 
     ListaDeTarefas ListaGeral;
+    zerarListaDeTarefas(&ListaGeral);
+
     //Variaveis para ler o comando do usuario e verificar o retorno das funções
     int opcao, controle;
 
