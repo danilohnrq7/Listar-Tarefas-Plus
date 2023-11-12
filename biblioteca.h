@@ -3,7 +3,7 @@ typedef struct {
     int prioridade;
     char categoria[20];
     char descricao[300];
-    char estado[3];
+    char estado[10];
 } Tarefa; // Nomeando este tipo de struct como: Tarefa
 
 //Definindo a struct que conterá as structs Tarefa
@@ -12,7 +12,9 @@ typedef struct {
     int qtd;
 } ListaDeTarefas; // Nomeando este tipo de struct como: ListaDeTarefas
 
-int altera_categoria(int*verifica, ListaDeTarefas *lt);
+int altera_categoria(int* verifica, ListaDeTarefas* lt, int indice);
+
+int altera_andamento(int* verifica, ListaDeTarefas* lt, int indice);
 
 //Função para cadastrar tarefas, que recebe um ponteiro de ListaDeTarefas como parâmetro e retorna um inteiro
 int cadastrarTarefa(ListaDeTarefas *lt);

@@ -1,39 +1,54 @@
-#include "biblioteca.h""
+#include "biblioteca.h"
 #include <stdio.h>
 #include "string.h"
 
-i   altera_categoria(int*verifica, ListaDeTarefas *lt) {
+int altera_categoria(int* verifica, ListaDeTarefas* lt, int indice) {
     //switch case para preenceher a categoria na struct de acordo com a entrada do usuario
     switch (*verifica) {
         case 1:
-            strcpy(lt->tarefas[lt->qtd].categoria, "Pessoal");
+            strcpy(lt->tarefas[indice].categoria, "Pessoal");
             break;
         case 2:
-            strcpy(lt->tarefas[lt->qtd].categoria, "Casa");
+            strcpy(lt->tarefas[indice].categoria, "Casa");
             break;
         case 3:
-            strcpy(lt->tarefas[lt->qtd].categoria, "Pets");
+            strcpy(lt->tarefas[indice].categoria, "Pets");
             break;
         case 4:
-            strcpy(lt->tarefas[lt->qtd].categoria, "Faculdade/Escola");
+            strcpy(lt->tarefas[indice].categoria, "Faculdade/Escola");
             break;
         case 5:
-            strcpy(lt->tarefas[lt->qtd].categoria, "Trabalho");
+            strcpy(lt->tarefas[indice].categoria, "Trabalho");
             break;
         case 6:
-            strcpy(lt->tarefas[lt->qtd].categoria, "Financeira");
+            strcpy(lt->tarefas[indice].categoria, "Financeira");
             break;
         case 7:
-            strcpy(lt->tarefas[lt->qtd].categoria, "Alimentacao");
+            strcpy(lt->tarefas[indice].categoria, "Alimentacao");
             break;
         case 8:
-            strcpy(lt->tarefas[lt->qtd].categoria, "Intelectual/Espiritual");
+            strcpy(lt->tarefas[indice].categoria, "Intelectual/Espiritual");
             break;
         case 9:
-            strcpy(lt->tarefas[lt->qtd].categoria, "Saude/Exercicio");
+            strcpy(lt->tarefas[indice].categoria, "Saude/Exercicio");
             break;
         case 10:
-            strcpy(lt->tarefas[lt->qtd].categoria, "Outros");
+            strcpy(lt->tarefas[indice].categoria, "Outros");
+            break;
+    };
+}
+
+int altera_andamento(int* verifica, ListaDeTarefas* lt, int indice) {
+    //switch case para preenceher a categoria na struct de acordo com a entrada do usuario
+    switch (*verifica) {
+        case 1:
+            strcpy(lt->tarefas[indice].categoria, "Pessoal");
+            break;
+        case 2:
+            strcpy(lt->tarefas[indice].categoria, "Casa");
+            break;
+        case 3:
+            strcpy(lt->tarefas[indice].categoria, "Pets");
             break;
     };
 }
@@ -46,20 +61,23 @@ int cadastrarTarefa(ListaDeTarefas *lt){
     //Lendo a prioridade da tarefa
     printf("Digite a prioridade da tarefa: (digite um valor de 0 a 10)\n");
     scanf("%d",&lt->tarefas[lt->qtd].prioridade);
+    getchar();
 
     //Lendo a descrição da tarefa
     printf("Digite a descricao da tarefa: ");
     scanf(" %[^\n]",lt->tarefas[lt->qtd].descricao);
+    getchar();
 
     //Lendo a categoria da tarefa
     printf("Selecione a categoria da tarefa, Digite um dos numeros:\n1-Pessoal  |  2-Casa  |  3-Pets  |  4-Faculdade/Escola  |  5-Trabalho  |  6-Financeira  |\n7-Alimentacao |  8-Intelectual/Espiritual  |  9-Saude/Exercicio  |  10-Outros  |\n");
     scanf("%d", &verif_categoria);
-    getchar();
-    altera_categoria(&verif_categoria, lt);
+    altera_categoria(&verif_categoria, lt, lt->qtd);
+
 
     //Lendo o status da tarefa
     printf("Essa tarefa está completa?  Digite:\n'1' se estiver completa\n'2' se estiver em andamento\n'3' se ainda não tiver iniciado ainda\n'" );
     scanf(" %[^\n]",lt->tarefas[lt->qtd].estado);
+    getchar();
 
     //Aumentando a variável do número de structs
     lt->qtd ++;
@@ -119,22 +137,35 @@ int alterarTarefa(ListaDeTarefas *lt){
                     for (int j = i; j < lt->qtd - 1; j++){ //Laço 2
                         lt->tarefas[j] = lt->tarefas[j+1];
                     }
-                    printf("Qual campo da tarefa deseja alterar? :\n1-Prioridade  |  2-Descrição  |  3-Categoria");
+                    printf("Qual campo da tarefa deseja alterar? :\n1-Prioridade  |  2-Descrição  |  3-Categoria  |  4-Andamento");
                     scanf("%d",&escolha);
 
                     if(escolha == 1){
                         printf("Digite a prioridade da tarefa: (digite um valor de 0 a 10)\n");
-                        scanf("%d",&lt->tarefas[lt->qtd].prioridade);
-                    } else if(escolha == 2){
+                        scanf("%d",&lt->tarefas[i].prioridade);
+                        getchar();
+                        verifica = 0;
+                    }
+                    else if(escolha == 2){
                         printf("Digite a descricao da tarefa: ");
-                        scanf(" %[^\n]",lt->tarefas[lt->qtd].descricao);
-                    } else if(escolha == 3){
+                        scanf(" %[^\n]",lt->tarefas[i].descricao);
+                        getchar();
+                        verifica = 0;
+                    }
+                    else if(escolha == 3){
                         int verif_categoria;
                         printf("Selecione a categoria da tarefa, Digite um dos numeros:\n1-Pessoal  |  2-Casa  |  3-Pets  |  4-Faculdade/Escola  |  5-Trabalho  |  6-Financeira  |\n7-Alimentacao |  8-Intelectual/Espiritual  |  9-Saude/Exercicio  |  10-Outros  |\n");
                         scanf("%d", &verif_categoria);
                         getchar();
-                        altera_categoria(&verif_categoria, lt);
-                    }else{
+                        altera_categoria(&verif_categoria, lt, i);
+                        verifica = 0;
+                    }
+                    else if (escolha == 4) {
+                        printf("Selecione o estado atual da tarefa. Digite:\n'1' se estiver completa\n'2' se estiver em andamento\n'3' se ainda não tiver iniciado ainda\n");
+                        scanf(" %[^\n]", lt->tarefas[i].estado);
+                        verifica = 0;
+                    }
+                    else{
                         printf("ERRO AO TENTAR ALTERAR A TAREFA, TENTE NOVAMENTE");
                         break;
                     }
@@ -265,6 +296,7 @@ int listarTarefas(ListaDeTarefas lt){
             printf("Prioridade da tarefa: %d\n", lt.tarefas[i].prioridade); //Prioridade
             printf("Descricao da tarefa: %s\n", lt.tarefas[i].descricao); //Descrição
             printf("Categoria da tarefa: %s\n", lt.tarefas[i].categoria); //Categoria
+            printf("Andamento da tarefa: %s\n", lt.tarefas[i].estado); //Andamento
         }
     }
     return 0;
@@ -278,6 +310,7 @@ void printMenu(){
     printf("1 - Cadastrar tarefa.\n");
     printf("2 - Deletar tarefa.\n");
     printf("3 - Listar tarefas.\n");
+    printf("4 - Alterar tarefas.\n");
     printf("0 - Sair.\n\n");
 
 }
