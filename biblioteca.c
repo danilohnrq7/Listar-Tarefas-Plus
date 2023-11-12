@@ -42,13 +42,13 @@ int altera_andamento(int* verifica, ListaDeTarefas* lt, int indice) {
     //switch case para preenceher a categoria na struct de acordo com a entrada do usuario
     switch (*verifica) {
         case 1:
-            strcpy(lt->tarefas[indice].categoria, "Pessoal");
+            strcpy(lt->tarefas[indice].estado, "Completa");
             break;
         case 2:
-            strcpy(lt->tarefas[indice].categoria, "Casa");
+            strcpy(lt->tarefas[indice].estado, "Em Andamento");
             break;
         case 3:
-            strcpy(lt->tarefas[indice].categoria, "Pets");
+            strcpy(lt->tarefas[indice].estado, "Não Iniciada");
             break;
     };
 }
@@ -57,6 +57,7 @@ int altera_andamento(int* verifica, ListaDeTarefas* lt, int indice) {
 int cadastrarTarefa(ListaDeTarefas *lt){
     //Variável para o controle do retorno das funções
     int verif_categoria;
+    int verif_andamento;
 
     //Lendo a prioridade da tarefa
     printf("Digite a prioridade da tarefa: (digite um valor de 0 a 10)\n");
@@ -72,11 +73,12 @@ int cadastrarTarefa(ListaDeTarefas *lt){
     printf("Selecione a categoria da tarefa, Digite um dos numeros:\n1-Pessoal  |  2-Casa  |  3-Pets  |  4-Faculdade/Escola  |  5-Trabalho  |  6-Financeira  |\n7-Alimentacao |  8-Intelectual/Espiritual  |  9-Saude/Exercicio  |  10-Outros  |\n");
     scanf("%d", &verif_categoria);
     altera_categoria(&verif_categoria, lt, lt->qtd);
-
+    getchar();
 
     //Lendo o status da tarefa
     printf("Essa tarefa está completa?  Digite:\n'1' se estiver completa\n'2' se estiver em andamento\n'3' se ainda não tiver iniciado ainda\n'" );
-    scanf(" %[^\n]",lt->tarefas[lt->qtd].estado);
+    scanf("%d", &verif_andamento);
+    altera_andamento(&verif_andamento, lt, lt->qtd);
     getchar();
 
     //Aumentando a variável do número de structs
@@ -91,7 +93,7 @@ int cadastrarTarefa(ListaDeTarefas *lt){
     return 0;
 };
 
-    //scanf(" %[^\n]", lt->tarefas[lt->qtd].categoria);
+//scanf(" %[^\n]", lt->tarefas[lt->qtd].categoria);
 
 
 
@@ -141,8 +143,10 @@ int alterarTarefa(ListaDeTarefas *lt){
                     scanf("%d",&escolha);
 
                     if(escolha == 1){
+                        int prioridade;
                         printf("Digite a prioridade da tarefa: (digite um valor de 0 a 10)\n");
-                        scanf("%d",&lt->tarefas[i].prioridade);
+                        scanf("%d",&prioridade);
+                        lt->tarefas[i].prioridade = prioridade;
                         getchar();
                         verifica = 0;
                     }
@@ -161,8 +165,11 @@ int alterarTarefa(ListaDeTarefas *lt){
                         verifica = 0;
                     }
                     else if (escolha == 4) {
+                        int verif_andamento;
                         printf("Selecione o estado atual da tarefa. Digite:\n'1' se estiver completa\n'2' se estiver em andamento\n'3' se ainda não tiver iniciado ainda\n");
-                        scanf(" %[^\n]", lt->tarefas[i].estado);
+                        scanf("%d", &verif_andamento);
+                        getchar();
+                        altera_andamento(&verif_andamento, lt, i);
                         verifica = 0;
                     }
                     else{
