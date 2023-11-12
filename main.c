@@ -10,6 +10,7 @@
 int main(void) {
 
     ListaDeTarefas ListaGeral;
+    zerarListaDeTarefas(&ListaGeral);
     //Variaveis para ler o comando do usuario e verificar o retorno das funções
     int opcao, controle;
 
@@ -60,17 +61,24 @@ int main(void) {
             if (controle != 0){
                 printf("\nErro ao tentar executar a funcao :(\n");
             }
+        }else if (opcao == 4){
+            printf("Funcao 4 - Alterarr\n");
+
+            //Chamando a função de alteração e verificando seu retorno
+            controle = alterarTarefa(&ListaGeral);
+            if (controle != 0){
+                printf("\nErro ao tentar executar a funcao :(\n");
+            }
         }
-            //Qualquer outro digito além de 0, 1, 2 ou 3 informará ao usuário que a opção escolhida não é válida e repetirá o menu
+            //Qualquer outro digito além de 0, 1, 2, 3 ou 4 informará ao usuário que a opção escolhida não é válida e repetirá o menu
         else if (opcao != 0){
             printf("Opcao invalida :(\n");
         }
 
         printf("\n----------------------------------\n\n");
-
+    }
         //Caso o usuário digite 0 o laço acabará
-    } while (opcao != 0);
-
+    while (opcao != 0);
     //Mensagem de despedida
     printf("Ate mais :)");
 
