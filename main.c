@@ -62,14 +62,42 @@ int main(void) {
                 printf("\nErro ao tentar executar a funcao :(\n");
             }
         }else if (opcao == 4){
-            printf("Funcao 4 - Alterarr\n");
+            printf("Funcao 4 - Alterar\n");
 
             //Chamando a função de alteração e verificando seu retorno
             controle = alterarTarefa(&ListaGeral);
             if (controle != 0){
                 printf("\nErro ao tentar executar a funcao :(\n");
             }
-        }
+        }else if (opcao == 5) {
+              printf("Funcao 5 - Filtrar\n");
+              // Chame a função de filtro e verifique seu retorno
+              int escolha = 0;
+              controle = verif_filtro(escolha);
+              if (controle == 0) {
+                  printf("\nErro ao tentar executar a funcao :(\n");
+              } else {
+                  switch (controle) {
+                      case 1:
+                          filtro_prioridade(&ListaGeral);
+                          break;
+                      case 2:
+                          filtro_andamento(&ListaGeral);
+                          break;
+                      case 3:
+                          // Chame a função de filtragem por categoria (prioridade decrescente)
+                          // ...
+                          break;
+                      case 4:
+                          // Chame a função de filtragem por categoria e prioridade
+                          // ...
+                          break;
+                      default:
+                          // Este caso não deve ocorrer se a função verif_filtro estiver correta.
+                          break;
+                  }
+              }
+          }
             //Qualquer outro digito além de 0, 1, 2, 3 ou 4 informará ao usuário que a opção escolhida não é válida e repetirá o menu
         else if (opcao != 0){
             printf("Opcao invalida :(\n");
@@ -83,4 +111,4 @@ int main(void) {
     printf("Ate mais :)");
 
     return 0;
-}
+};

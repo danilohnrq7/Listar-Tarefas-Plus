@@ -318,6 +318,7 @@ void printMenu(){
     printf("2 - Deletar tarefa.\n");
     printf("3 - Listar tarefas.\n");
     printf("4 - Alterar tarefas.\n");
+    printf("5 - Filtrar tarefas.\n");
     printf("0 - Sair.\n\n");
 
 }
@@ -372,3 +373,89 @@ int carregarTarefas(ListaDeTarefas *lt){
     fclose(f);
     return 0;
 };
+
+int filtro_prioridade(ListaDeTarefas *lt) {
+    // variavel pra pegar a entrada do usuario
+    int prioridadee;
+    printf("Digite a prioridade desejada: ");
+    scanf("%d", &prioridadee);
+
+    int tarefaEncontrada = 0;
+
+  // for para iterar sobre as tarefas
+    for (int i = 0; i < lt->qtd; i++) {
+      // verifica se a prioridade da tarefa é igual a prioridadee
+        if (lt->tarefas[i].prioridade == prioridadee) {
+          //imprime as tarefas encontradas
+          printf("\nPrioridade da tarefa: %d\n", lt->tarefas[i].prioridade);
+          printf("Descricao da tarefa: %s\n", lt->tarefas[i].descricao); 
+          printf("Categoria da tarefa: %s\n", lt->tarefas[i].categoria); 
+          printf("Andamento da tarefa: %s\n", lt->tarefas[i].estado); 
+            tarefaEncontrada = 1;
+        }
+    }
+
+    /*if (!tarefaEncontrada) {
+        printf("Nao foi possivel encontrar tarefas com a prioridade %d\n", prioridadee);
+        return 1; // Retorna 1 se nenhuma tarefa for encontrada
+    }*/
+
+    return 0; // Retorna 0 se pelo menos uma tarefa for encontrada
+}
+
+int filtro_andamento(ListaDeTarefas *lt) {
+  // variavel para a entrada do usuario
+    int andamento_escolhido;
+    printf("Digite o andamento que voce deseja filtrar:\n");
+    printf("1 - Completa\n");
+    printf("2 - Em andamento\n");
+    printf("3 - Não iniciada\n");
+    scanf("%d", &andamento_escolhido);
+  // verifica se a entrada é valida
+    if (andamento_escolhido < 1 || andamento_escolhido > 3) {
+        printf("Opção inválida. Insira um valor entre 1 e 3.\n");
+        return 1; // Retorna 1 para indicar opção inválida
+    }
+
+    int tarefaEncontrada = 0;
+
+    // for para verificar se há tarefas com o mesmo andamento escolhido
+    for (int i = 0; i < lt->qtd; i++) {
+        // verifica qual será o andamento escolhido
+        if ((andamento_escolhido == 1 && strcasecmp(lt->tarefas[i].estado, "Completa") == 0) ||
+            (andamento_escolhido == 2 && strcasecmp(lt->tarefas[i].estado, "Em andamento") == 0) ||
+            (andamento_escolhido == 3 && strcasecmp(lt->tarefas[i].estado, "Não iniciada") == 0)) {
+            //for para imprimir todas as tarefas com o mesmo andamento
+            for (int j = 0; j < lt->qtd; j++) {
+                // Mostrar informações da tarefa
+                printf("Prioridade: %d\n", lt->tarefas[i].prioridade);
+                printf("Descricao : %s\n", lt->tarefas[i].descricao);
+                printf("Categoria : %s\n", lt->tarefas[i].categoria);
+                printf("Andamento : %s\n", lt->tarefas[i].estado);
+                printf("\n");
+            }
+
+            tarefaEncontrada = 1;
+        }
+    }
+
+    if (!tarefaEncontrada) {
+        printf("Nenhuma tarefa com o andamento desejado foi encontrada.\n");
+        return 1; // Retorna 1 se nenhuma tarefa for encontrada
+    }
+
+    return 0; // Retorna 0 se pelo menos uma tarefa for encontrada
+}
+
+// funcao para verificar qual o filtro escolhido pelo usuario
+int verif_filtro() {
+    int escolha;
+    printf("Selecione o filtro desejado:\n1-Prioridade\n2-Andamento\n3-Categoria (Prioridade Decrescente)\n4-Categoria e Prioridade\n");
+    scanf("%d", &escolha);
+    //retorna um inteiro de acordo com a escolha do usuario
+    if (escolha == 1 || escolha == 2 || escolha == 3 || escolha == 4) {
+        return escolha;
+    } else {
+        return 0;
+    }
+}

@@ -38,3 +38,9 @@ int salvarTarefas(ListaDeTarefas *lt);
 
 //Função para salvar tarefas lidas de um arquivo binário, que recebe um ponteiro de ListaDeTarefas como parâmetro e retorna um inteiro
 int carregarTarefas(ListaDeTarefas *lt);
+
+int filtro_prioridade(ListaDeTarefas *lt);
+
+int filtro_andamento(ListaDeTarefas *lt);
+
+int verif_filtro(int escolha);
